@@ -5,8 +5,15 @@ environment:
   sdk: ^3.11.0-200.1.beta
 
 dependencies:
+  dartantic_ai: ^3.0.0
   flutter:
     sdk: flutter
+  genui:
+    git:
+      url: https://github.com/polina-c/genui
+      path: packages/genui
+      ref: v09-catalog
+  logging: ^3.2.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
