@@ -1,7 +1,3 @@
-// Copyright 2025 The Flutter Authors.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
 
 import 'package:dartantic_ai/dartantic_ai.dart' as dartantic;
@@ -49,9 +45,7 @@ class ChatSession extends ChangeNotifier {
     _surfaceController.surfaceUpdates.listen((SurfaceUpdate update) {
       if (update is SurfaceAdded) {
         // Check if we already have a message with this surfaceId
-        final exists = _messages.any(
-          (m) => m.surfaceId == update.surfaceId,
-        );
+        final exists = _messages.any((m) => m.surfaceId == update.surfaceId);
 
         if (!exists) {
           _messages.add(
@@ -119,12 +113,10 @@ class ChatSession extends ChangeNotifier {
       notifyListeners();
 
       // Listen for text updates from the controller to update the UI
-      final subscription = _transportAdapter
-          .incomingText
-          .listen((chunk) {
-            aiMessageController.text = (aiMessageController.text ?? '') + chunk;
-            notifyListeners();
-          });
+      final subscription = _transportAdapter.incomingText.listen((chunk) {
+        aiMessageController.text = (aiMessageController.text ?? '') + chunk;
+        notifyListeners();
+      });
 
       // Use sendStream() to receive chunks of the response.
       final stream = _aiClient.sendStream(

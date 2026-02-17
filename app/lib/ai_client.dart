@@ -1,7 +1,3 @@
-// Copyright 2025 The Flutter Authors.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
 
 import 'package:dartantic_ai/dartantic_ai.dart' as dartantic;
@@ -43,10 +39,7 @@ class DartanticAiClient implements AiClient {
     String prompt, {
     required List<dartantic.ChatMessage> history,
   }) async* {
-    final stream = _agent.sendStream(
-      prompt,
-      history: history,
-    );
+    final stream = _agent.sendStream(prompt, history: history);
 
     await for (final result in stream) {
       if (result.output.isNotEmpty) {
