@@ -28,7 +28,7 @@ class AiClientTransport implements Transport {
   @override
   Future<void> sendRequest(ChatMessage message) async {
     final buffer = StringBuffer();
-    for (final dartantic.StandardPart part in message.parts) {
+    for (final part in message.parts) {
       if (part.isUiInteractionPart) {
         buffer.write(part.asUiInteractionPart!.interaction);
       } else if (part is TextPart) {
@@ -41,10 +41,7 @@ class AiClientTransport implements Transport {
     _history.add(dartantic.ChatMessage.user(text));
 
     try {
-      final Stream<String> stream = aiClient.sendStream(
-        text,
-        history: List.of(_history),
-      );
+      final stream = aiClient.sendStream(text, history: List.of(_history));
       final fullResponseBuffer = StringBuffer();
 
       await for (final chunk in stream) {

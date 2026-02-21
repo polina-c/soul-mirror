@@ -1,4 +1,3 @@
-import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:genui/genui.dart';
 
 import 'schema.dart';

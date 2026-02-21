@@ -1,5 +1,4 @@
 import 'package:json_schema_builder/json_schema_builder.dart';
-import 'package:genui/genui.dart';
 
 abstract class ItemSchema<T extends ItemDefinition> {
   final Schema schema;

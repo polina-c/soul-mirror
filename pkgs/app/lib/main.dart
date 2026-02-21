@@ -5,9 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
-import 'ai_client.dart';
-import 'chat_session.dart';
-import 'message.dart';
+import 'app/ai_client.dart';
+import 'app/chat_session.dart';
+import 'app/message.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     controller: _scrollController,
                     itemCount: _chatSession.messages.length,
                     itemBuilder: (context, index) {
-                      final Message message = _chatSession.messages[index];
+                      final message = _chatSession.messages[index];
                       // Pass the controller as the host.
                       return ListTile(
                         title: MessageView(
@@ -128,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _sendMessage() async {
-    final String text = _textController.text;
+    final text = _textController.text;
     if (text.isEmpty) return;
     _textController.clear();
     await _chatSession.sendMessage(text);
