@@ -9,7 +9,7 @@ abstract class ItemSchema<T extends ItemDefinition> {
   T parse(Map<String, dynamic> json);
 }
 
-/// Item definition constructed by AI.
+/// Item definition constructed by AI, based on provided [ItemSchema].
 abstract class ItemDefinition {
   ItemDefinition();
 }

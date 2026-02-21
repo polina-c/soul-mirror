@@ -15,7 +15,7 @@ String getApiKey() {
   if (debugApiKey != null) {
     return debugApiKey!;
   }
-  String apiKey = _geminiApiKey.isEmpty
+  var apiKey = _geminiApiKey.isEmpty
       ? Platform.environment['GEMINI_API_KEY'] ?? ''
       : _geminiApiKey;
   if (apiKey.isEmpty) {

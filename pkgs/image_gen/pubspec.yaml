@@ -1,4 +1,4 @@
-name: app
+name: image_gen
 publish_to: 'none'
 
 resolution: workspace
@@ -10,14 +10,6 @@ dependencies:
   dartantic_ai: ^3.1.0
   flutter:
     sdk: flutter
-  genui:
-    git:
-      # url: https://github.com/polina-c/genui
-      # path: packages/genui
-      # ref: v09-catalog
-      url: https://github.com/flutter/genui
-      path: packages/genui
-      ref: feature/v0.9-migration
   json_schema_builder: ^0.1.3
   logging: ^1.3.0
 

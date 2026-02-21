@@ -6,3 +6,5 @@ environment:
 
 workspace:
   - pkgs/app
+  - pkgs/image_gen
+

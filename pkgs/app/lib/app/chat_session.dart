@@ -19,7 +19,7 @@ class ChatSession extends ChangeNotifier {
     _transport = AiClientTransport(aiClient: aiClient);
 
     // 2. Initialize Catalog & Controller
-    final Catalog catalog = BasicCatalogItems.asCatalog();
+    final catalog = BasicCatalogItems.asCatalog();
     _surfaceController = SurfaceController(catalogs: [catalog]);
 
     // 3. Initialize Conversation
@@ -76,7 +76,7 @@ class ChatSession extends ChangeNotifier {
   }
 
   void _addSurfaceMessage(String surfaceId) {
-    final bool exists = _messages.any((m) => m.surfaceId == surfaceId);
+    final exists = _messages.any((m) => m.surfaceId == surfaceId);
     if (!exists) {
       _messages.add(Message(isUser: false, text: null, surfaceId: surfaceId));
       notifyListeners();

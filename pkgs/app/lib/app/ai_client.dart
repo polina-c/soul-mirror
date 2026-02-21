@@ -27,7 +27,7 @@ abstract interface class AiClient {
 /// An implementation of [AiClient] using `package:dartantic_ai`.
 class DartanticAiClient implements AiClient {
   DartanticAiClient({String? modelName}) {
-    final String apiKey = getApiKey();
+    final apiKey = getApiKey();
     _provider = dartantic.GoogleProvider(apiKey: apiKey);
     _agent = dartantic.Agent.forProvider(
       _provider,
@@ -43,10 +43,7 @@ class DartanticAiClient implements AiClient {
     String prompt, {
     required List<dartantic.ChatMessage> history,
   }) async* {
-    final Stream<dartantic.ChatResult<String>> stream = _agent.sendStream(
-      prompt,
-      history: history,
-    );
+    final stream = _agent.sendStream(prompt, history: history);
 
     await for (final result in stream) {
       if (result.output.isNotEmpty) {

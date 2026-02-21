@@ -9,6 +9,15 @@
             "args": [
                 "--dart-define=GEMINI_API_KEY=${env:GEMINI_API_KEY}"
             ]
+        },
+        {
+            "name": "image_gen",
+            "cwd": "pkgs/image_gen",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=GEMINI_API_KEY=${env:GEMINI_API_KEY}"
+            ]
         }
     ]
 }
