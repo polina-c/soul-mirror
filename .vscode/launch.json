@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "app",
-            "cwd": "app",
+            "cwd": "pkgs/app",
             "request": "launch",
             "type": "dart"
         }
