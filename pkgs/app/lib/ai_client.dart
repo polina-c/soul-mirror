@@ -1,3 +1,7 @@
+// Copyright 2025 The Flutter Authors.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'dart:async';
 
 import 'package:dartantic_ai/dartantic_ai.dart' as dartantic;
@@ -23,7 +27,7 @@ abstract interface class AiClient {
 /// An implementation of [AiClient] using `package:dartantic_ai`.
 class DartanticAiClient implements AiClient {
   DartanticAiClient({String? modelName}) {
-    final apiKey = getApiKey();
+    final String apiKey = getApiKey();
     _provider = dartantic.GoogleProvider(apiKey: apiKey);
     _agent = dartantic.Agent.forProvider(
       _provider,
@@ -39,7 +43,10 @@ class DartanticAiClient implements AiClient {
     String prompt, {
     required List<dartantic.ChatMessage> history,
   }) async* {
-    final stream = _agent.sendStream(prompt, history: history);
+    final Stream<dartantic.ChatResult<String>> stream = _agent.sendStream(
+      prompt,
+      history: history,
+    );
 
     await for (final result in stream) {
       if (result.output.isNotEmpty) {

@@ -1,3 +1,7 @@
+// Copyright 2025 The Flutter Authors.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -71,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     controller: _scrollController,
                     itemCount: _chatSession.messages.length,
                     itemBuilder: (context, index) {
-                      final message = _chatSession.messages[index];
+                      final Message message = _chatSession.messages[index];
                       // Pass the controller as the host.
                       return ListTile(
                         title: MessageView(
@@ -124,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _sendMessage() async {
-    final text = _textController.text;
+    final String text = _textController.text;
     if (text.isEmpty) return;
     _textController.clear();
     await _chatSession.sendMessage(text);

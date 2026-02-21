@@ -1,3 +1,7 @@
+// Copyright 2025 The Flutter Authors.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 
@@ -18,7 +22,7 @@ class MessageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final surfaceId = message.surfaceId;
+    final String? surfaceId = message.surfaceId;
 
     if (surfaceId == null) return Text(message.text ?? '');
 
