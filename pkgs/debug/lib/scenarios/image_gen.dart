@@ -13,6 +13,18 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
   String? _prompt;
   bool _injectError = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void _generate() {
     final prompt = _controller.text.trim();
     if (prompt.isEmpty) return;
@@ -37,7 +49,7 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: _generate,
+                onPressed: _controller.text.trim().isEmpty ? null : _generate,
                 child: const Text('Generate'),
               ),
               const SizedBox(width: 16),
