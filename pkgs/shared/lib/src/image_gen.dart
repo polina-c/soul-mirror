@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:dartantic_ai/dartantic_ai.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gal/gal.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
 
@@ -77,8 +79,11 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() =>
-      Gal.putImageBytes(image, name: 'image.png');
+  Future<void> _downloadImage() async {
+    final dir = await getDownloadsDirectory();
+    if (dir == null) throw Exception('Downloads directory not available');
+    await File(p.join(dir.path, 'image.png')).writeAsBytes(image);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +97,8 @@ class _Icons extends StatelessWidget {
           _Icon(Icons.download, () async {
             await _downloadImage();
             if (context.mounted) {
-              final location = switch (defaultTargetPlatform) {
-                TargetPlatform.windows => 'Pictures folder',
-                _ => 'Photos',
-              };
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Saved to $location')),
+                const SnackBar(content: Text('Saved to Downloads')),
               );
             }
           }),

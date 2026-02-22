@@ -11,8 +11,8 @@ dependencies:
   dartantic_ai: ^3.1.0
   flutter:
     sdk: flutter
-  gal: ^2.3.0
   path: ^1.9.0
+  path_provider: ^2.1.5
   share_plus: ^10.1.4
 
 
