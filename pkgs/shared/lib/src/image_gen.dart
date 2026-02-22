@@ -71,21 +71,21 @@ class _Icons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final btnStyle = IconButton.styleFrom(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+    );
     return Row(
+      spacing: 8,
       children: [
         IconButton(
           onPressed: _shareImage,
           icon: const Icon(Icons.share, size: 18),
-          style: IconButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-          ),
+          style: btnStyle,
         ),
         IconButton(
           onPressed: _downloadImage,
           icon: const Icon(Icons.download, size: 18),
-          style: IconButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-          ),
+          style: btnStyle,
         ),
       ],
     );
