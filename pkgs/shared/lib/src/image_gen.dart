@@ -1,4 +1,5 @@
 import 'package:dartantic_ai/dartantic_ai.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gal/gal.dart';
@@ -76,7 +77,8 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() => Gal.putImageBytes(image, name: 'image.png');
+  Future<void> _downloadImage() =>
+      Gal.putImageBytes(image, name: 'image.png');
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,18 @@ class _Icons extends StatelessWidget {
         spacing: 4,
         children: [
           _Icon(Icons.share, _shareImage),
-          _Icon(Icons.download, _downloadImage),
+          _Icon(Icons.download, () async {
+            await _downloadImage();
+            if (context.mounted) {
+              final location = switch (defaultTargetPlatform) {
+                TargetPlatform.windows => 'Pictures folder',
+                _ => 'Photos',
+              };
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Saved to $location')),
+              );
+            }
+          }),
         ],
       ),
     );
