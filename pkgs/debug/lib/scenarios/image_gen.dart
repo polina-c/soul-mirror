@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+import 'package:shared/shared.dart';
+
+class ImageGenScenario extends StatefulWidget {
+  const ImageGenScenario({super.key});
+
+  @override
+  State<ImageGenScenario> createState() => _ImageGenScenarioState();
+}
+
+class _ImageGenScenarioState extends State<ImageGenScenario> {
+  final _controller = TextEditingController();
+  String? _prompt;
+
+  void _generate() {
+    final prompt = _controller.text.trim();
+    if (prompt.isEmpty) return;
+    setState(() => _prompt = prompt);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          TextField(
+            controller: _controller,
+            decoration: const InputDecoration(
+              hintText: 'Describe an image...',
+              border: OutlineInputBorder(),
+            ),
+            onSubmitted: (_) => _generate(),
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton(onPressed: _generate, child: const Text('Generate')),
+          const SizedBox(height: 20),
+          if (_prompt != null) Expanded(child: GenImageView(prompt: _prompt!)),
+        ],
+      ),
+    );
+  }
+}
