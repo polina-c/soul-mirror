@@ -1,4 +1,5 @@
-name: image_gen
+name: debug
+description: 'Application to masnually evaluate some scenarios.'
 publish_to: 'none'
 
 resolution: workspace
