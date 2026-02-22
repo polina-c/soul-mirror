@@ -29,6 +29,9 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
   }
 
   void _generate() {
+    if (_controller.text.trim().isEmpty) {
+      _controller.text = 'A walking cat';
+    }
     final prompt = _controller.text.trim();
     assert(prompt.isNotEmpty);
     setState(() {
@@ -58,7 +61,7 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: _controller.text.trim().isEmpty ? null : _generate,
+                onPressed: _generate,
                 child: const Text('Generate'),
               ),
               const SizedBox(width: 16),
