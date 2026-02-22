@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:shared/shared.dart';
+
+import '../../shared/primitives/image_gen.dart';
 
 class ImageGenScenario extends StatefulWidget {
   const ImageGenScenario({super.key});

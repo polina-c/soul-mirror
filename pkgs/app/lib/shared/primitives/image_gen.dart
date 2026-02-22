@@ -2,8 +2,9 @@ import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../shared.dart';
+import 'api_key/api_key.dart';
 import 'download/download.dart';
+import 'error.dart';
 
 Future<Uint8List> generateImage(
   String prompt, {
