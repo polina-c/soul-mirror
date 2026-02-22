@@ -1,8 +1,7 @@
-# Soul Mirror
+# Mirror
 
-Soul Mirror is a Flutter application that showcases usage of 
+Mirror is a Flutter application that showcases usage of 
 (GenUI SDK)[https://github.com/flutter/genui].
 
-Soul Mirror allows users to explore their
-personality through various psychological tests and quizzes.
-It provides a platform for self-discovery and connection to self.
+Mirror allows users to explore their
+current state of mind and express it as an image.
