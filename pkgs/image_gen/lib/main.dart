@@ -1,5 +1,6 @@
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:shared/shared.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,9 +23,7 @@ class MainApp extends StatelessWidget {
 
 void generate() async {
   // Create an agent with your preferred provider
-  final agent = Agent(
-    'openai', // or 'openai-responses', 'google', 'anthropic', etc.
-  );
+  final agent = Agent.forProvider(GoogleProvider(apiKey: getApiKey()));
 
   // Generate text
   final result = await agent.send(

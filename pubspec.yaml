@@ -1,5 +1,4 @@
-name: _
-publish_to: none
+name: soul_mirror
 
 environment:
   sdk: ^3.11.0-200.1.beta
@@ -7,4 +6,5 @@ environment:
 workspace:
   - pkgs/app
   - pkgs/image_gen
+  - pkgs/shared
 
