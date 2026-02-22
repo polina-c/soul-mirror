@@ -5,6 +5,4 @@ environment:
 
 workspace:
   - pkgs/app
-  - pkgs/debug
-  - pkgs/shared
 

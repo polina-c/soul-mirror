@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 import 'app/chat_screen.dart';
+import 'debug/scenarios.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ void main() async {
   runApp(
     Scaffold(
       appBar: AppBar(title: const Text('Chat (Controller + Dartantic)')),
-      body: MyApp(),
+      body: const MyApp(),
     ),
   );
 }
@@ -32,15 +33,13 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           bottom: const TabBar(
-            tabs: [Tab(text: 'App'), Tab(text: 'Debug')],
+            tabs: [
+              Tab(text: 'App'),
+              Tab(text: 'Debug'),
+            ],
           ),
         ),
-        body: const TabBarView(
-          children: [
-            ChatScreen(),
-            Center(child: Text('Debug')),
-          ],
-        ),
+        body: const TabBarView(children: [ChatScreen(), DebugScreen()]),
       ),
     );
   }

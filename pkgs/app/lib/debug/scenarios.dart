@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'scenarios/generate_image.dart';
 
-class Scenarios extends StatefulWidget {
-  const Scenarios({super.key});
+class DebugScreen extends StatefulWidget {
+  const DebugScreen({super.key});
 
   @override
-  State<Scenarios> createState() => _ScenariosState();
+  State<DebugScreen> createState() => _DebugScreenState();
 }
 
-class _ScenariosState extends State<Scenarios> {
+class _DebugScreenState extends State<DebugScreen> {
   static const _scenarios = [
     (label: 'Generate image', widget: ImageGenScenario()),
   ];
