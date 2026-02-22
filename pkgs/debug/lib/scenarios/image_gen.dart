@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 
@@ -10,7 +12,7 @@ class ImageGenScenario extends StatefulWidget {
 
 class _ImageGenScenarioState extends State<ImageGenScenario> {
   final _controller = TextEditingController();
-  String? _prompt;
+  Future<Uint8List>? _future;
   bool _injectError = false;
 
   @override
@@ -27,8 +29,13 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
 
   void _generate() {
     final prompt = _controller.text.trim();
-    if (prompt.isEmpty) return;
-    setState(() => _prompt = prompt);
+    assert(prompt.isNotEmpty);
+    setState(
+      () => _future = generateImage(
+        prompt,
+        injectedError: _injectError ? 'Injected error' : null,
+      ),
+    );
   }
 
   @override
@@ -61,13 +68,8 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
             ],
           ),
           const SizedBox(height: 20),
-          if (_prompt != null)
-            Expanded(
-              child: GenImageView(
-                prompt: _prompt!,
-                injectedError: _injectError ? 'Injected error' : null,
-              ),
-            ),
+          if (_future != null)
+            Expanded(child: GenImageView(future: _future!)),
         ],
       ),
     );

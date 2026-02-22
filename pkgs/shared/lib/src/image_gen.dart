@@ -22,29 +22,15 @@ Future<Uint8List> generateImage(String prompt, {String? injectedError}) async {
   }
 }
 
-class GenImageView extends StatefulWidget {
-  const GenImageView({super.key, required this.prompt, this.injectedError});
+class GenImageView extends StatelessWidget {
+  const GenImageView({super.key, required this.future});
 
-  final String prompt;
-  final String? injectedError;
-
-  @override
-  State<GenImageView> createState() => _GenImageViewState();
-}
-
-class _GenImageViewState extends State<GenImageView> {
-  late Future<Uint8List> _future;
-
-  @override
-  void initState() {
-    super.initState();
-    _future = generateImage(widget.prompt, injectedError: widget.injectedError);
-  }
+  final Future<Uint8List> future;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List>(
-      future: _future,
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
