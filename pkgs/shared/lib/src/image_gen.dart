@@ -27,6 +27,10 @@ class GenImageView extends StatelessWidget {
 
   final Future<Uint8List> future;
 
+  void _shareImage(Uint8List bytes) {
+    
+  
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List>(
@@ -41,7 +45,28 @@ class GenImageView extends StatelessWidget {
             details: snapshot.error.toString(),
           );
         }
-        return Image.memory(snapshot.requireData);
+        return Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+          child: Stack(
+            alignment: AlignmentGeometry.topLeft,
+            children: [
+              Image.memory(snapshot.requireData, fit: BoxFit.cover),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  onPressed: () => _shareImage(snapshot.requireData),
+                  icon: const Icon(Icons.share, size: 18),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
