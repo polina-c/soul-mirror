@@ -15,34 +15,7 @@ void main() async {
   Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
-  runApp(
-    Scaffold(
-      appBar: AppBar(title: const Text('Chat (Controller + Dartantic)')),
-      body: const MyApp(),
-    ),
-  );
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'App'),
-              Tab(text: 'Debug'),
-            ],
-          ),
-        ),
-        body: const TabBarView(children: [ChatScreen(), DebugScreen()]),
-      ),
-    );
-  }
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -58,6 +31,81 @@ class MyApp extends StatelessWidget {
         colorScheme: colorScheme.copyWith(brightness: Brightness.dark),
       ),
       home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+enum _Screens { app, debug }
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final _screen = ValueNotifier<_Screens>(_Screens.app);
+  late final _tabController = TabController(length: 2, vsync: this);
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Mirror'),
+          actions: [_Switcher(_screen)],
+        ),
+        body: ValueListenableBuilder(
+          valueListenable: _screen,
+          builder: (context, value, child) {
+            switch (value) {
+              case _Screens.app:
+                return const ChatScreen();
+              case _Screens.debug:
+                return const DebugScreen();
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _Switcher extends StatelessWidget {
+  const _Switcher(this.screen);
+
+  final ValueNotifier<_Screens> screen;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: screen,
+      builder: (context, value, child) {
+        return SegmentedButton<_Screens>(
+          emptySelectionAllowed: false,
+          multiSelectionEnabled: false,
+
+          segments: [
+            ButtonSegment<_Screens>(value: _Screens.app, label: Text('App')),
+            ButtonSegment<_Screens>(
+              value: _Screens.debug,
+              label: Text('Debug'),
+            ),
+          ],
+          selected: {value},
+          onSelectionChanged: (value) {
+            screen.value = value.first;
+          },
+        );
+      },
     );
   }
 }
