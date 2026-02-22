@@ -73,9 +73,9 @@ class _Icons extends StatelessWidget {
 
   final Uint8List image;
 
-  Future<void> _shareImage() => Share.shareXFiles([
-    XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
-  ]);
+  Future<void> _shareImage() => SharePlus.instance.share(
+    ShareParams(files: [XFile.fromData(image, mimeType: 'image/png', name: 'image.png')]),
+  );
 
   Future<void> _downloadImage() => download(image);
 
