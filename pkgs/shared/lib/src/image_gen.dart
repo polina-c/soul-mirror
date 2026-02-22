@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
+import 'download_image.dart';
 
 Future<Uint8List> generateImage(
   String prompt, {
@@ -79,11 +76,7 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() async {
-    final dir = await getDownloadsDirectory();
-    if (dir == null) throw Exception('Downloads directory not available');
-    await File(p.join(dir.path, 'image.png')).writeAsBytes(image);
-  }
+  Future<void> _downloadImage() => downloadImage(image);
 
   @override
   Widget build(BuildContext context) {

@@ -30,7 +30,7 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
 
   void _generate() {
     if (_controller.text.trim().isEmpty) {
-      _controller.text = 'A walking cat';
+      _controller.text = 'A walking cat on the fence';
     }
     final prompt = _controller.text.trim();
     assert(prompt.isNotEmpty);
