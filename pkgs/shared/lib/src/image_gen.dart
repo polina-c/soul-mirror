@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
-import 'download_image.dart';
+import 'download/download.dart';
 
 Future<Uint8List> generateImage(
   String prompt, {
@@ -76,7 +76,7 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() => downloadImage(image);
+  Future<void> _downloadImage() => download(image);
 
   @override
   Widget build(BuildContext context) {

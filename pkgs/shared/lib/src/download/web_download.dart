@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:web/web.dart' as web;
 
-Future<void> platformDownloadImage(Uint8List bytes) async {
+Future<void> platformDownload(Uint8List bytes) async {
   final blob = web.Blob(
     [bytes.toJS].toJS,
     web.BlobPropertyBag(type: 'image/png'),
