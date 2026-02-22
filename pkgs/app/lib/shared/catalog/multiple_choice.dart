@@ -1,6 +1,7 @@
-import 'package:json_schema_builder/json_schema_builder.dart';
 import 'package:genui/genui.dart';
+import 'package:json_schema_builder/json_schema_builder.dart';
 
+// ignore: unused_element
 final _schema = S.object(
   properties: {
     'selections': A2uiSchemas.stringArrayReference(),
