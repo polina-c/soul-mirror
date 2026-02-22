@@ -10,16 +10,15 @@ Future<Uint8List> generateImage(String prompt) async {
     mediaModelName: 'gemini-3-pro-image-preview',
   );
 
-  final result;
   try {
-    result = await agent.generateMedia(prompt, mimeTypes: ['image/png']);
+    final result = await agent.generateMedia(prompt, mimeTypes: ['image/png']);
+    final asset = result.assets.firstOrNull;
+    if (asset is DataPart) return asset.bytes;
+    throw Exception('Gemini returned no image for prompt: "$prompt"');
   } catch (e) {
+    if (e is Exception) rethrow;
     throw Exception('Gemini image generation failed: $e');
   }
-
-  final asset = result.assets.firstOrNull;
-  if (asset is DataPart) return asset.bytes;
-  throw Exception('Gemini returned no image for prompt: "$prompt"');
 }
 
 void main() {
