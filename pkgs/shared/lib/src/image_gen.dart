@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:gal/gal.dart';
 import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
 
@@ -67,15 +68,18 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() async {}
+  Future<void> _downloadImage() =>
+      Gal.putImageBytes(image, name: 'image.png');
 
   @override
   Widget build(BuildContext context) {
     final btnStyle = IconButton.styleFrom(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.surfaceContainer.withValues(alpha: 0.8),
+      padding: const EdgeInsets.all(8),
     );
     return Row(
-      spacing: 8,
       children: [
         IconButton(
           onPressed: _shareImage,

@@ -63,10 +63,13 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
               const SizedBox(width: 16),
               Checkbox(
                 value: _injectError,
-                onChanged: (v) => _injectError = v!,
+                onChanged: (v) => setState(() => _injectError = v!),
               ),
               const Text('Inject error'),
-              Checkbox(value: _useAsset, onChanged: (v) => _useAsset = v!),
+              Checkbox(
+                value: _useAsset,
+                onChanged: (v) => setState(() => _useAsset = v!),
+              ),
               const Text('Use asset'),
             ],
           ),
