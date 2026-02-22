@@ -4,23 +4,6 @@ import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 
-Future<Uint8List> generateImage(String prompt) async {
-  final agent = Agent.forProvider(
-    GoogleProvider(apiKey: getApiKey()),
-    mediaModelName: 'gemini-3-pro-image-preview',
-  );
-
-  try {
-    final result = await agent.generateMedia(prompt, mimeTypes: ['image/png']);
-    final asset = result.assets.firstOrNull;
-    if (asset is DataPart) return asset.bytes;
-    throw Exception('Gemini returned no image for prompt: "$prompt"');
-  } catch (e) {
-    if (e is Exception) rethrow;
-    throw Exception('Gemini image generation failed: $e');
-  }
-}
-
 void main() {
   runApp(const MainApp());
 }
