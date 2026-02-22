@@ -101,7 +101,7 @@ class _Icons extends StatelessWidget {
                 const SnackBar(content: Text('Saved to Downloads')),
               );
             } else {
-              print('not mounted');
+              print('cannot show snackbar, context not mounted');
             }
           }),
         ],
