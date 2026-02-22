@@ -14,6 +14,7 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
   final _controller = TextEditingController();
   Future<Uint8List>? _future;
   bool _injectError = false;
+  bool _useAsset = false;
 
   @override
   void initState() {
@@ -62,14 +63,15 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
               const SizedBox(width: 16),
               Checkbox(
                 value: _injectError,
-                onChanged: (v) => setState(() => _injectError = v!),
+                onChanged: (v) => _injectError = v!,
               ),
               const Text('Inject error'),
+              Checkbox(value: _useAsset, onChanged: (v) => _useAsset = v!),
+              const Text('Use asset'),
             ],
           ),
           const SizedBox(height: 20),
-          if (_future != null)
-            Expanded(child: GenImageView(future: _future!)),
+          if (_future != null) Expanded(child: GenImageView(future: _future!)),
         ],
       ),
     );

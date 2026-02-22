@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
 
 Future<Uint8List> generateImage(String prompt, {String? injectedError}) async {
@@ -27,8 +28,6 @@ class GenImageView extends StatelessWidget {
 
   final Future<Uint8List> future;
 
-  void _shareImage(Uint8List bytes) {}
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List>(
@@ -43,29 +42,52 @@ class GenImageView extends StatelessWidget {
             details: snapshot.error.toString(),
           );
         }
-        return Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: Stack(
-            alignment: AlignmentGeometry.topLeft,
-            children: [
-              Image.memory(snapshot.requireData, fit: BoxFit.cover),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: IconButton(
-                  onPressed: () => _shareImage(snapshot.requireData),
-                  icon: const Icon(Icons.share, size: 18),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainer,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        return Stack(
+          alignment: AlignmentGeometry.topLeft,
+          children: [
+            Image.memory(snapshot.requireData, fit: BoxFit.cover),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: _Icons(image: snapshot.requireData),
+            ),
+          ],
         );
       },
+    );
+  }
+}
+
+class _Icons extends StatelessWidget {
+  const _Icons({required this.image});
+
+  final Uint8List image;
+
+  Future<void> _shareImage() => Share.shareXFiles([
+    XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
+  ]);
+
+  Future<void> _downloadImage() async {}
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: _shareImage,
+          icon: const Icon(Icons.share, size: 18),
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+        ),
+        IconButton(
+          onPressed: _downloadImage,
+          icon: const Icon(Icons.download, size: 18),
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+        ),
+      ],
     );
   }
 }
