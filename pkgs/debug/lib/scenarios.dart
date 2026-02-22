@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'scenarios/image_gen.dart';
+import 'scenarios/generate_image.dart';
 
 class Scenarios extends StatefulWidget {
   const Scenarios({super.key});

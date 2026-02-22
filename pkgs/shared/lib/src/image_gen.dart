@@ -1,13 +1,20 @@
-import 'dart:typed_data';
-
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gal/gal.dart';
 import 'package:share_plus/share_plus.dart';
 import '../shared.dart';
 
-Future<Uint8List> generateImage(String prompt, {String? injectedError}) async {
+Future<Uint8List> generateImage(
+  String prompt, {
+  String? injectedError,
+  String? injectedAsset,
+}) async {
   if (injectedError != null) throw Exception(injectedError);
+  if (injectedAsset != null) {
+    final bytes = await rootBundle.load(injectedAsset);
+    return bytes.buffer.asUint8List();
+  }
   final agent = Agent.forProvider(
     GoogleProvider(apiKey: getApiKey()),
     mediaModelName: 'gemini-3-pro-image-preview',
@@ -68,8 +75,7 @@ class _Icons extends StatelessWidget {
     XFile.fromData(image, mimeType: 'image/png', name: 'image.png'),
   ]);
 
-  Future<void> _downloadImage() =>
-      Gal.putImageBytes(image, name: 'image.png');
+  Future<void> _downloadImage() => Gal.putImageBytes(image, name: 'image.png');
 
   @override
   Widget build(BuildContext context) {
