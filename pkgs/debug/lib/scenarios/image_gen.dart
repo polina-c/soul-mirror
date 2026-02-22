@@ -30,12 +30,12 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
   void _generate() {
     final prompt = _controller.text.trim();
     assert(prompt.isNotEmpty);
-    setState(
-      () => _future = generateImage(
+    setState(() {
+      _future = generateImage(
         prompt,
         injectedError: _injectError ? 'Injected error' : null,
-      ),
-    );
+      );
+    });
   }
 
   @override
