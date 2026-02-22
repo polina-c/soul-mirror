@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
@@ -11,50 +13,88 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: ElevatedButton(onPressed: generate, child: Text('Generate')),
+    return const MaterialApp(home: ImageGenPage());
+  }
+}
+
+class ImageGenPage extends StatefulWidget {
+  const ImageGenPage({super.key});
+
+  @override
+  State<ImageGenPage> createState() => _ImageGenPageState();
+}
+
+class _ImageGenPageState extends State<ImageGenPage> {
+  final _controller = TextEditingController();
+  Uint8List? _imageBytes;
+  bool _loading = false;
+  String? _error;
+
+  Future<void> _generate() async {
+    final prompt = _controller.text.trim();
+    if (prompt.isEmpty) return;
+
+    setState(() {
+      _loading = true;
+      _imageBytes = null;
+      _error = null;
+    });
+
+    try {
+      final agent = Agent.forProvider(
+        GoogleProvider(apiKey: getApiKey()),
+        mediaModelName: 'gemini-3-pro-image-preview',
+      );
+
+      final result = await agent.generateMedia(prompt, mimeTypes: ['image/png']);
+
+      final asset = result.assets.firstOrNull;
+      if (asset is DataPart) {
+        setState(() => _imageBytes = asset.bytes);
+      } else {
+        setState(() => _error = 'No image returned');
+      }
+    } catch (e) {
+      setState(() => _error = e.toString());
+    } finally {
+      setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                hintText: 'Describe an image...',
+                border: OutlineInputBorder(),
+              ),
+              onSubmitted: (_) => _generate(),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _loading ? null : _generate,
+              child: _loading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Generate'),
+            ),
+            const SizedBox(height: 20),
+            if (_error != null)
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            if (_imageBytes != null)
+              Expanded(child: Image.memory(_imageBytes!)),
+          ],
         ),
       ),
     );
   }
-}
-
-void generate() async {
-  // Create an agent with your preferred provider
-  final agent = Agent.forProvider(
-    GoogleProvider(apiKey: getApiKey()),
-    mediaModelName: 'gemini-3-pro-image-preview',
-  );
-
-  // Generate text
-  final result = await agent.send(
-    'Explain quantum computing in simple terms',
-    history: [ChatMessage.system('You are a helpful assistant.')],
-  );
-  print(result.output);
-
-  // Use typed outputs with json_schema_builder
-  final location = await agent.sendFor<TownAndCountry>(
-    'The windy city in the US',
-    outputSchema: S.object(
-      properties: {'town': S.string(), 'country': S.string()},
-      required: ['town', 'country'],
-    ),
-    outputFromJson: TownAndCountry.fromJson,
-  );
-  print('${location.output.town}, ${location.output.country}');
-}
-
-class TownAndCountry {
-  final String town;
-  final String country;
-
-  TownAndCountry({required this.town, required this.country});
-
-  factory TownAndCountry.fromJson(Map<String, Object?> json) => TownAndCountry(
-    town: json['town'] as String,
-    country: json['country'] as String,
-  );
 }
