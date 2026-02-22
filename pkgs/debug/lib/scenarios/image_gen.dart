@@ -11,6 +11,7 @@ class ImageGenScenario extends StatefulWidget {
 class _ImageGenScenarioState extends State<ImageGenScenario> {
   final _controller = TextEditingController();
   String? _prompt;
+  bool _injectError = false;
 
   void _generate() {
     final prompt = _controller.text.trim();
@@ -33,9 +34,28 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
             onSubmitted: (_) => _generate(),
           ),
           const SizedBox(height: 12),
-          ElevatedButton(onPressed: _generate, child: const Text('Generate')),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: _generate,
+                child: const Text('Generate'),
+              ),
+              const SizedBox(width: 16),
+              Checkbox(
+                value: _injectError,
+                onChanged: (v) => setState(() => _injectError = v!),
+              ),
+              const Text('Inject error'),
+            ],
+          ),
           const SizedBox(height: 20),
-          if (_prompt != null) Expanded(child: GenImageView(prompt: _prompt!)),
+          if (_prompt != null)
+            Expanded(
+              child: GenImageView(
+                prompt: _prompt!,
+                injectedError: _injectError ? 'Injected error' : null,
+              ),
+            ),
         ],
       ),
     );

@@ -4,7 +4,8 @@ import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import '../shared.dart';
 
-Future<Uint8List> generateImage(String prompt) async {
+Future<Uint8List> generateImage(String prompt, {String? injectedError}) async {
+  if (injectedError != null) throw Exception(injectedError);
   final agent = Agent.forProvider(
     GoogleProvider(apiKey: getApiKey()),
     mediaModelName: 'gemini-3-pro-image-preview',
@@ -22,9 +23,10 @@ Future<Uint8List> generateImage(String prompt) async {
 }
 
 class GenImageView extends StatefulWidget {
-  const GenImageView({super.key, required this.prompt});
+  const GenImageView({super.key, required this.prompt, this.injectedError});
 
   final String prompt;
+  final String? injectedError;
 
   @override
   State<GenImageView> createState() => _GenImageViewState();
@@ -36,7 +38,7 @@ class _GenImageViewState extends State<GenImageView> {
   @override
   void initState() {
     super.initState();
-    _future = generateImage(widget.prompt);
+    _future = generateImage(widget.prompt, injectedError: widget.injectedError);
   }
 
   @override
