@@ -23,7 +23,10 @@ class MainApp extends StatelessWidget {
 
 void generate() async {
   // Create an agent with your preferred provider
-  final agent = Agent.forProvider(GoogleProvider(apiKey: getApiKey()));
+  final agent = Agent.forProvider(
+    GoogleProvider(apiKey: getApiKey()),
+    mediaModelName: 'gemini-3-pro-image-preview',
+  );
 
   // Generate text
   final result = await agent.send(
