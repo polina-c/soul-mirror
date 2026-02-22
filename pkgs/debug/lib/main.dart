@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 
@@ -26,28 +23,12 @@ class ImageGenPage extends StatefulWidget {
 
 class _ImageGenPageState extends State<ImageGenPage> {
   final _controller = TextEditingController();
-  Uint8List? _imageBytes;
-  bool _loading = false;
-  String? _error;
+  String? _prompt;
 
-  Future<void> _generate() async {
+  void _generate() {
     final prompt = _controller.text.trim();
     if (prompt.isEmpty) return;
-
-    setState(() {
-      _loading = true;
-      _imageBytes = null;
-      _error = null;
-    });
-
-    try {
-      final bytes = await generateImage(prompt);
-      setState(() => _imageBytes = bytes);
-    } on Exception catch (e) {
-      setState(() => _error = e.toString());
-    } finally {
-      setState(() => _loading = false);
-    }
+    setState(() => _prompt = prompt);
   }
 
   @override
@@ -67,20 +48,12 @@ class _ImageGenPageState extends State<ImageGenPage> {
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: _loading ? null : _generate,
-              child: _loading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Generate'),
+              onPressed: _generate,
+              child: const Text('Generate'),
             ),
             const SizedBox(height: 20),
-            if (_error != null)
-              Text(_error!, style: const TextStyle(color: Colors.red)),
-            if (_imageBytes != null)
-              Expanded(child: Image.memory(_imageBytes!)),
+            if (_prompt != null)
+              Expanded(child: GenImageView(prompt: _prompt!)),
           ],
         ),
       ),
