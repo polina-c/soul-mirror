@@ -50,16 +50,17 @@ class GenImageView extends StatelessWidget {
             details: snapshot.error.toString(),
           );
         }
-        return Stack(
-          alignment: AlignmentGeometry.topLeft,
-          children: [
-            Image.memory(snapshot.requireData, fit: BoxFit.cover),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: _Icons(image: snapshot.requireData),
-            ),
-          ],
+        return IntrinsicWidth(
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Image.memory(snapshot.requireData, fit: BoxFit.cover),
+              Align(
+                alignment: Alignment.topRight,
+                child: _Icons(image: snapshot.requireData),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -79,25 +80,37 @@ class _Icons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          _Icon(Icons.share, _shareImage),
+          _Icon(Icons.download, _downloadImage),
+        ],
+      ),
+    );
+  }
+}
+
+class _Icon extends StatelessWidget {
+  const _Icon(this.icon, this.onPressed);
+
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
     final btnStyle = IconButton.styleFrom(
       backgroundColor: Theme.of(
         context,
       ).colorScheme.surfaceContainer.withValues(alpha: 0.8),
-      padding: const EdgeInsets.all(8),
     );
-    return Row(
-      children: [
-        IconButton(
-          onPressed: _shareImage,
-          icon: const Icon(Icons.share, size: 18),
-          style: btnStyle,
-        ),
-        IconButton(
-          onPressed: _downloadImage,
-          icon: const Icon(Icons.download, size: 18),
-          style: btnStyle,
-        ),
-      ],
+    return IconButton(
+      icon: Icon(icon, size: 18),
+      onPressed: onPressed,
+      style: btnStyle,
     );
   }
 }
