@@ -100,6 +100,8 @@ class _Icons extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Saved to Downloads')),
               );
+            } else {
+              print('not mounted');
             }
           }),
         ],
