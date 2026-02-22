@@ -42,10 +42,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum _Screens { app, debug }
+enum _Screens { front, back }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final _screen = ValueNotifier<_Screens>(_Screens.app);
+  final _screen = ValueNotifier<_Screens>(_Screens.front);
   late final _tabController = TabController(length: 2, vsync: this);
 
   @override
@@ -67,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           valueListenable: _screen,
           builder: (context, value, child) {
             switch (value) {
-              case _Screens.app:
+              case _Screens.front:
                 return const ChatScreen();
-              case _Screens.debug:
+              case _Screens.back:
                 return const DebugScreen();
             }
           },
@@ -90,14 +90,18 @@ class _Switcher extends StatelessWidget {
       valueListenable: screen,
       builder: (context, value, child) {
         return SegmentedButton<_Screens>(
+          showSelectedIcon: false,
           emptySelectionAllowed: false,
           multiSelectionEnabled: false,
 
           segments: [
-            ButtonSegment<_Screens>(value: _Screens.app, label: Text('App')),
-            ButtonSegment<_Screens>(
-              value: _Screens.debug,
-              label: Text('Debug'),
+            const ButtonSegment<_Screens>(
+              value: _Screens.front,
+              label: Text('Front'),
+            ),
+            const ButtonSegment<_Screens>(
+              value: _Screens.back,
+              label: Text('Back'),
             ),
           ],
           selected: {value},
