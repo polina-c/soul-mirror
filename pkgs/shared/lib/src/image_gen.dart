@@ -27,9 +27,7 @@ class GenImageView extends StatelessWidget {
 
   final Future<Uint8List> future;
 
-  void _shareImage(Uint8List bytes) {
-    
-  
+  void _shareImage(Uint8List bytes) {}
 
   @override
   Widget build(BuildContext context) {
