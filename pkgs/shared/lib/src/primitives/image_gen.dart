@@ -2,7 +2,7 @@ import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
-import '../shared.dart';
+import '../../shared.dart';
 import 'download/download.dart';
 
 Future<Uint8List> generateImage(

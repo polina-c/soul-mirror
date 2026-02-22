@@ -7,8 +7,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
 import 'package:logging/logging.dart';
+import 'package:shared/shared.dart';
 
-import '../catalog/catalog.dart';
 import 'ai_client.dart';
 import 'ai_client_transport.dart';
 import 'message.dart';
