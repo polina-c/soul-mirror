@@ -11,8 +11,8 @@
             ]
         },
         {
-            "name": "image_gen",
-            "cwd": "pkgs/image_gen",
+            "name": "debug",
+            "cwd": "pkgs/debug",
             "request": "launch",
             "type": "dart",
             "args": [
