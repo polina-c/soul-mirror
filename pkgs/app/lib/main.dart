@@ -5,10 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
-import 'app/ai_client.dart';
 import 'app/chat_screen.dart';
-import 'app/chat_session.dart';
-import 'app/message.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +20,30 @@ void main() async {
       body: MyApp(),
     ),
   );
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: const TabBar(
+            tabs: [Tab(text: 'App'), Tab(text: 'Debug')],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            ChatScreen(),
+            Center(child: Text('Debug')),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
