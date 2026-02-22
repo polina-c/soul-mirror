@@ -2,9 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dartantic_ai/dartantic_ai.dart';
 import 'package:flutter/material.dart';
-import 'package:shared/shared.dart';
-
-import 'error.dart';
+import '../shared.dart';
 
 Future<Uint8List> generateImage(String prompt) async {
   final agent = Agent.forProvider(

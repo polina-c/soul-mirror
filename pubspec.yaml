@@ -5,6 +5,6 @@ environment:
 
 workspace:
   - pkgs/app
-  - pkgs/image_gen
+  - pkgs/debug
   - pkgs/shared
 
