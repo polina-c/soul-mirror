@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:genui/genui.dart';
 import 'package:logging/logging.dart';
 
+import '../catalog/catalog.dart';
 import 'ai_client.dart';
 import 'ai_client_transport.dart';
 import 'message.dart';
@@ -18,16 +19,15 @@ class ChatSession extends ChangeNotifier {
     // 1. Create Transport
     _transport = AiClientTransport(aiClient: aiClient);
 
-    // 2. Initialize Catalog & Controller
-    final catalog = BasicCatalogItems.asCatalog();
-    _surfaceController = SurfaceController(catalogs: [catalog]);
+    // 2. Initialize controller
+    _surfaceController = SurfaceController(catalogs: [appCatalog]);
 
     // 3. Initialize Conversation
     _conversation = Conversation(
       controller: _surfaceController,
       transport: _transport,
     );
-    _init(catalog);
+    _init(appCatalog);
   }
 
   late final AiClientTransport _transport;
