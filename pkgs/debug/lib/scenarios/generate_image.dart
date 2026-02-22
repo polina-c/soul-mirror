@@ -38,7 +38,7 @@ class _ImageGenScenarioState extends State<ImageGenScenario> {
       _future = generateImage(
         prompt,
         injectedError: _injectError ? 'Injected error' : null,
-        injectedAsset: _useAsset ? 'assets/images/kirkland-wa.png' : null,
+        injectedAsset: _useAsset ? 'assets/images/dash.jpg' : null,
       );
     });
   }
