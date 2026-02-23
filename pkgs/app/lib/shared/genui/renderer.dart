@@ -16,7 +16,7 @@ abstract class ItemController {
 }
 
 /// Handles data processing and state management of a [GenUiItem].
-abstract class GenUiItemController<T extends ItemSchema> {
+abstract class GenUiItemController<T extends ElementSchema> {
   final ItemController controller;
   final T schema;
 
@@ -25,7 +25,7 @@ abstract class GenUiItemController<T extends ItemSchema> {
 
 /// Implements rendering of a [GenUiItem].
 abstract class GenUiItem<
-  T extends ItemSchema,
+  T extends ElementSchema,
   C extends GenUiItemController<T>
 > {
   final C controller;
