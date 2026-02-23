@@ -1,40 +1,50 @@
+import 'package:flutter/widgets.dart';
 import 'package:genui/genui.dart';
 
 import 'schema.dart';
 
-/// Stores state and user input of a catalog item.
-abstract class ItemController {
+/// An update of the data model.
+abstract class DataModelUpdate {}
+
+/// Controller of a component.
+///
+/// Handles data processing and state management.
+abstract class ComponentController<D extends ElementDef> {
   final DataModel dataModel;
   final String componentId;
   final String surfaceId;
+  final D def;
 
-  ItemController({
+  ComponentController({
     required this.dataModel,
     required this.componentId,
     required this.surfaceId,
+    required this.def,
   });
-}
 
-/// Handles data processing and state management of a [GenUiItem].
-abstract class GenUiItemController<T extends ElementSchema> {
-  final ItemController controller;
-  final T schema;
+  /// Saves input to the data model.
+  ///
+  /// [T] should be serializable.
+  void saveInput<T>(String path, T? input) => throw UnimplementedError();
 
-  GenUiItemController({required this.controller, required this.schema});
-}
+  /// Loads input from the data model.
+  ///
+  /// [T] should be serializable.
+  T? loadInput<T>(String path) => throw UnimplementedError();
 
-/// Implements rendering of a [GenUiItem].
-abstract class GenUiItem<
-  T extends ElementSchema,
-  C extends GenUiItemController<T>
-> {
-  final C controller;
+  /// Stream of updates of the data model.
+  ///
+  /// If an update is triggered by [saveInput] or [action] of this instance,
+  /// the stream will emit the update.
+  Stream<DataModelUpdate> get updates => throw UnimplementedError();
 
-  GenUiItem({required this.controller});
-}
+  /// Returns state of the component.
+  ///
+  /// If it does not exist, it will be created with [builder].
+  T state<T>(T Function() builder) => throw UnimplementedError();
 
-class GenUiCatalog {
-  final List<GenUiItem> items;
+  /// Triggers an action.
+  void action(String actionId) => throw UnimplementedError();
 
-  GenUiCatalog({required this.items});
+  WidgetBuilder childBuilder(String componentId) => throw UnimplementedError();
 }
