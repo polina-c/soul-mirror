@@ -5,7 +5,7 @@ abstract class ElementSchema<T extends ElementDef> {
 
   ElementSchema({required this.schema});
 
-  T parse(Map<String, dynamic> json);
+  T parse(Object? json);
 }
 
 /// Item definition constructed by AI, based on provided [ElementSchema].
