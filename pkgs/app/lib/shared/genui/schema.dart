@@ -2,9 +2,8 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 
 abstract class ElementSchema<T extends ElementDef> {
   final Schema schema;
-  final String name;
 
-  ElementSchema({required this.schema, required this.name});
+  ElementSchema({required this.schema});
 
   T parse(Map<String, dynamic> json);
 }
