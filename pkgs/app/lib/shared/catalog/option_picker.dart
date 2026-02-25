@@ -70,6 +70,16 @@ sealed class OptionPickerElement extends UiElement {
 }
 
 @immutable
+final class OptionsPickerSchema extends UiElementSchema<OptionPickerElement> {
+  OptionsPickerSchema() : super(schema: _schema);
+
+  static final _schema = throw UnimplementedError();
+
+  @override
+  OptionPickerElement parse(Object? json) => throw UnimplementedError();
+}
+
+@immutable
 final class SingleOptionPickerElement extends OptionPickerElement {
   SingleOptionPickerElement({required super.options, this.selection});
 
