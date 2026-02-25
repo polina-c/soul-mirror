@@ -5,15 +5,15 @@ import 'package:json_schema_builder/json_schema_builder.dart';
 import '../genui/schema.dart';
 
 @immutable
-final class OptionDef extends ElementDef {
-  OptionDef({required this.label, required this.value});
+final class OptionElement extends UiElement {
+  OptionElement({required this.label, required this.value});
 
   final String label;
   final String value;
 }
 
 @immutable
-final class OptionSchema extends ElementSchema<OptionDef> {
+final class OptionSchema extends UiElementSchema<OptionElement> {
   OptionSchema() : super(schema: _schema);
 
   static final _schema = S.object(
@@ -27,9 +27,9 @@ final class OptionSchema extends ElementSchema<OptionDef> {
   );
 
   @override
-  OptionDef parse(Object? json) {
+  OptionElement parse(Object? json) {
     final map = json as Map<String, Object?>;
-    return OptionDef(
+    return OptionElement(
       label: map['label'] as String,
       value: map['value'] as String,
     );
@@ -41,44 +41,44 @@ final class OptionSchema extends ElementSchema<OptionDef> {
 }
 
 @immutable
-final class OptionsSchema extends ElementSchema<OptionsDef> {
+final class OptionsSchema extends UiElementSchema<OptionsElement> {
   OptionsSchema() : super(schema: _schema);
 
   static final _schema = S.list(items: OptionSchema().schema);
 
   @override
-  OptionsDef parse(Object? json) {
+  OptionsElement parse(Object? json) {
     final list = json as List<Object?>;
-    return OptionsDef(
+    return OptionsElement(
       options: list.map((e) => OptionSchema().parse(e)).toList(),
     );
   }
 }
 
 @immutable
-final class OptionsDef extends ElementDef {
-  OptionsDef({required this.options});
+final class OptionsElement extends UiElement {
+  OptionsElement({required this.options});
 
-  final List<OptionDef> options;
+  final List<OptionElement> options;
 }
 
 @immutable
-sealed class OptionPickerDef extends ElementDef {
-  OptionPickerDef({required this.options});
+sealed class OptionPickerElement extends UiElement {
+  OptionPickerElement({required this.options});
 
-  final List<OptionDef> options;
+  final List<OptionElement> options;
 }
 
 @immutable
-final class SingleOptionPickerDef extends OptionPickerDef {
-  SingleOptionPickerDef({required super.options, this.selection});
+final class SingleOptionPickerElement extends OptionPickerElement {
+  SingleOptionPickerElement({required super.options, this.selection});
 
   final String? selection;
 }
 
 @immutable
-final class MultipleOptionPickerDef extends OptionPickerDef {
-  MultipleOptionPickerDef({
+final class MultipleOptionPickerElement extends OptionPickerElement {
+  MultipleOptionPickerElement({
     required super.options,
     required this.selections,
     this.maxSelections,
