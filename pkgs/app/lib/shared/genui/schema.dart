@@ -1,15 +1,15 @@
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
 
-abstract class UiSchema<T extends UiElement> {
+abstract class ComponentDecoder<T extends ComponentData> {
   final Schema schema;
 
-  UiSchema({required this.schema});
+  ComponentDecoder({required this.schema});
 
   T parse(Object? json, DataModel dataModel);
 }
 
-/// Item definition constructed by AI, based on provided [UiSchema].
-abstract class UiElement {
-  UiElement();
+/// Item definition constructed by AI, based on [ComponentDecoder.schema].
+abstract class ComponentData {
+  ComponentData();
 }

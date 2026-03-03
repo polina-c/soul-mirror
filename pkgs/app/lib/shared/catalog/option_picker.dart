@@ -21,16 +21,16 @@ extension on DataModel {
 }
 
 @immutable
-final class OptionElement extends UiElement {
-  OptionElement({required this.label, required this.value});
+final class OptionData extends ComponentData {
+  OptionData({required this.label, required this.value});
 
   final String label;
   final String value;
 }
 
 @immutable
-final class OptionSchema extends UiSchema<OptionElement> {
-  OptionSchema() : super(schema: _schema);
+final class OptionDecoder extends ComponentDecoder<OptionData> {
+  OptionDecoder() : super(schema: _schema);
 
   static final _schema = S.object(
     properties: {
@@ -43,9 +43,9 @@ final class OptionSchema extends UiSchema<OptionElement> {
   );
 
   @override
-  OptionElement parse(Object? json, DataModel dataModel) {
+  OptionData parse(Object? json, DataModel dataModel) {
     final map = json as Map<String, Object?>;
-    return OptionElement(
+    return OptionData(
       label: map['label'] as String,
       value: map['value'] as String,
     );
@@ -57,51 +57,51 @@ final class OptionSchema extends UiSchema<OptionElement> {
 }
 
 @immutable
-final class OptionsSchema extends UiSchema<OptionsElement> {
-  OptionsSchema() : super(schema: _schema);
+final class OptionsDecoder extends ComponentDecoder<OptionsData> {
+  OptionsDecoder() : super(schema: _schema);
 
-  static final _schema = S.list(items: OptionSchema().schema);
+  static final _schema = S.list(items: OptionDecoder().schema);
 
   @override
-  OptionsElement parse(Object? json, DataModel dataModel) {
+  OptionsData parse(Object? json, DataModel dataModel) {
     final list = json as List<Object?>;
-    return OptionsElement(
-      options: list.map((e) => OptionSchema().parse(e, dataModel)).toList(),
+    return OptionsData(
+      options: list.map((e) => OptionDecoder().parse(e, dataModel)).toList(),
     );
   }
 }
 
 @immutable
-final class OptionsElement extends UiElement {
-  OptionsElement({required this.options});
+final class OptionsData extends ComponentData {
+  OptionsData({required this.options});
 
-  final List<OptionElement> options;
+  final List<OptionData> options;
 }
 
 @immutable
-sealed class OptionPickerElement extends UiElement {
-  OptionPickerElement({required this.options});
+sealed class OptionPickerData extends ComponentData {
+  OptionPickerData({required this.options});
 
-  final List<OptionElement> options;
+  final List<OptionData> options;
 }
 
 @immutable
-final class OptionsPickerSchema extends UiSchema<OptionPickerElement> {
-  OptionsPickerSchema() : super(schema: _schema);
+final class OptionsPickerDecoder extends ComponentDecoder<OptionPickerData> {
+  OptionsPickerDecoder() : super(schema: _schema);
 
   static final _schema = throw UnimplementedError();
 
   @override
-  OptionPickerElement parse(Object? json, DataModel dataModel) {
+  OptionPickerData parse(Object? json, DataModel dataModel) {
     final map = json as Map<String, Object?>;
     if (map['variant'] == 'multipleSelection') {
-      return MultipleOptionPickerElement(
-        options: OptionsSchema().parse(json['options'], dataModel).options,
+      return MultipleOptionPickerData(
+        options: OptionsDecoder().parse(json['options'], dataModel).options,
         selections: dataModel.listNotifier(ValueRef(json['selection'])),
       );
     } else {
-      return SingleOptionPickerElement(
-        options: OptionsSchema().parse(json['options'], dataModel).options,
+      return SingleOptionPickerData(
+        options: OptionsDecoder().parse(json['options'], dataModel).options,
         selection: dataModel.valueNotifier(ValueRef(json['selection'])),
       );
     }
@@ -109,15 +109,15 @@ final class OptionsPickerSchema extends UiSchema<OptionPickerElement> {
 }
 
 @immutable
-final class SingleOptionPickerElement extends OptionPickerElement {
-  SingleOptionPickerElement({required super.options, required this.selection});
+final class SingleOptionPickerData extends OptionPickerData {
+  SingleOptionPickerData({required super.options, required this.selection});
 
   final ValueNotifier<String?> selection;
 }
 
 @immutable
-final class MultipleOptionPickerElement extends OptionPickerElement {
-  MultipleOptionPickerElement({
+final class MultipleOptionPickerData extends OptionPickerData {
+  MultipleOptionPickerData({
     required super.options,
     required this.selections,
     this.maxSelections,
