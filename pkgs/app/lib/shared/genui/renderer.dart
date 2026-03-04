@@ -25,7 +25,7 @@ class ComponentContext<C extends ComponentController> {
 /// Controller of a component.
 ///
 /// Handles data processing and state management.
-abstract class ComponentController<D extends ComponentData> {
+abstract class ComponentController<D> {
   final DataModel dataModel;
   final ComponentAddress address;
   final D def;

@@ -12,24 +12,16 @@ class ValueRef<T extends Object?> {
   final Object? ref;
 }
 
-extension on DataModel {
-  ListNotifier<T> listNotifier<T>(ValueRef<List<T>> ref) =>
-      throw UnimplementedError();
-
-  ValueNotifier<T> valueNotifier<T>(ValueRef<T> ref) =>
-      throw UnimplementedError();
-}
-
 @immutable
-final class OptionData extends ComponentData {
-  OptionData({required this.label, required this.value});
+final class OptionNode {
+  OptionNode({required this.label, required this.value});
 
   final String label;
   final String value;
 }
 
 @immutable
-final class OptionDecoder extends ComponentDecoder<OptionData> {
+final class OptionDecoder extends ComponentDecoder<OptionNode> {
   OptionDecoder() : super(schema: _schema);
 
   static final _schema = S.object(
@@ -43,9 +35,9 @@ final class OptionDecoder extends ComponentDecoder<OptionData> {
   );
 
   @override
-  OptionData parse(Object? json, DataModel dataModel) {
+  OptionNode decode(Object? json, ComponentContext context) {
     final map = json as Map<String, Object?>;
-    return OptionData(
+    return OptionNode(
       label: map['label'] as String,
       value: map['value'] as String,
     );
@@ -57,67 +49,67 @@ final class OptionDecoder extends ComponentDecoder<OptionData> {
 }
 
 @immutable
-final class OptionsDecoder extends ComponentDecoder<OptionsData> {
+final class OptionsDecoder extends ComponentDecoder<OptionsNode> {
   OptionsDecoder() : super(schema: _schema);
 
   static final _schema = S.list(items: OptionDecoder().schema);
 
   @override
-  OptionsData parse(Object? json, DataModel dataModel) {
+  OptionsNode decode(Object? json, ComponentContext context) {
     final list = json as List<Object?>;
-    return OptionsData(
-      options: list.map((e) => OptionDecoder().parse(e, dataModel)).toList(),
+    return OptionsNode(
+      options: list.map((e) => OptionDecoder().decode(e, context)).toList(),
     );
   }
 }
 
 @immutable
-final class OptionsData extends ComponentData {
-  OptionsData({required this.options});
+final class OptionsNode {
+  OptionsNode({required this.options});
 
-  final List<OptionData> options;
+  final List<OptionNode> options;
 }
 
 @immutable
-sealed class OptionPickerData extends ComponentData {
-  OptionPickerData({required this.options});
+sealed class OptionPickerNode {
+  OptionPickerNode({required this.options});
 
-  final List<OptionData> options;
+  final List<OptionNode> options;
 }
 
 @immutable
-final class OptionsPickerDecoder extends ComponentDecoder<OptionPickerData> {
+final class OptionsPickerDecoder extends ComponentDecoder<OptionPickerNode> {
   OptionsPickerDecoder() : super(schema: _schema);
 
   static final _schema = throw UnimplementedError();
 
   @override
-  OptionPickerData parse(Object? json, DataModel dataModel) {
+  OptionPickerNode decode(Object? json, ComponentContext context) {
     final map = json as Map<String, Object?>;
     if (map['variant'] == 'multipleSelection') {
-      return MultipleOptionPickerData(
-        options: OptionsDecoder().parse(json['options'], dataModel).options,
-        selections: dataModel.listNotifier(ValueRef(json['selection'])),
+      return MultipleOptionPickerNode(
+        options: OptionsDecoder().decode(json['options'], context).options,
+        selections: context.listNotifier(ValueRef(json['selection'])),
       );
     } else {
-      return SingleOptionPickerData(
-        options: OptionsDecoder().parse(json['options'], dataModel).options,
-        selection: dataModel.valueNotifier(ValueRef(json['selection'])),
+      return SingleOptionPickerNode(
+        options: OptionsDecoder().decode(json['options'], context).options,
+        selection: context.valueNotifier(ValueRef(json['selection'])),
       );
     }
   }
 }
 
 @immutable
-final class SingleOptionPickerData extends OptionPickerData {
-  SingleOptionPickerData({required super.options, required this.selection});
+final class SingleOptionPickerNode extends OptionPickerNode {
+  SingleOptionPickerNode({required super.options, required this.selection});
 
   final ValueNotifier<String?> selection;
 }
 
 @immutable
-final class MultipleOptionPickerData extends OptionPickerData {
-  MultipleOptionPickerData({
+final class MultipleOptionPickerNode extends OptionPickerNode {
+  MultipleOptionPickerNode({
     required super.options,
     required this.selections,
     this.maxSelections,

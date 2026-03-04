@@ -1,15 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:genui/genui.dart';
 import 'package:json_schema_builder/json_schema_builder.dart';
 
-abstract class ComponentDecoder<T extends ComponentData> {
+import '../catalog/option_picker.dart';
+
+abstract class ComponentDecoder<T extends Object> {
   final Schema schema;
 
   ComponentDecoder({required this.schema});
 
-  T parse(Object? json, DataModel dataModel);
+  T decode(Object? json, ComponentContext context);
 }
 
-/// Item definition constructed by AI, based on [ComponentDecoder.schema].
-abstract class ComponentData {
-  ComponentData();
+class ComponentContext {
+  ListNotifier<T> listNotifier<T>(ValueRef<List<T>> ref) =>
+      throw UnimplementedError();
+
+  ValueNotifier<T> valueNotifier<T>(ValueRef<T> ref) =>
+      throw UnimplementedError();
 }
